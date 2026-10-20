@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Room SNS Dashboard</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <div class="container dashboard">
+    <header class="topbar">
+      <div>
+        <h2>こんにちは、<%= user.username %> さん</h2>
+      </div>
+      <form method="POST" action="/logout">
+        <button type="submit" class="ghost">ログアウト</button>
+      </form>
+    </header>
+
+    <% if (error) { %>
+      <div class="message error"><%= error %></div>
+    <% } %>
+
+    <% if (success) { %>
+      <div class="message success"><%= success %></div>
+    <% } %>
+
+    <div class="grid">
+      <aside class="panel">
+        <h3>ルーム作成</h3>
+        <form method="POST" action="/room/create">
+          <label>ルーム名</label>
+          <input type="text" name="name" required />
+          <label>パスワード</label>
+          <input type="password" name="password" required />
+          <button type="submit">作成</button>
+        </form>
+
+        <h3>ルーム参加</h3>
+        <form method="POST" action="/room/join">
+          <label>ルーム名</label>
+          <input type="text" name="name" required />
+          <label>パスワード</label>
+          <input type="password" name="password" required />
+          <button type="submit">参加</button>
+        </form>
+
+        <h3>ルーム一覧</h3>
+        <ul class="room-list">
+          <% rooms.forEach(function(roomItem) { %>
+            <li>
+              <a href="/switch-room/<%= roomItem.id %>"><%= roomItem.name %></a>
+            </li>
+          <% }) %>
+        </ul>
+      </aside>
+
+      <main class="panel feed">
+        <h3>
+          <% if (room) { %>
+            現在のルーム: <%= room.name %>
+          <% } else { %>
+            ルームを選択してください
+          <% } %>
+        </h3>
+
+        <% if (room) { %>
+          <form method="POST" action="/post">
+            <textarea name="content" maxlength="280" placeholder="今どうしてる？"></textarea>
+            <button type="submit">投稿</button>
+          </form>
+
+          <div class="posts">
+            <% posts.forEach(function(post) { %>
+              <article class="post">
+                <div class="post-head">
+                  <strong><%= post.username %></strong>
+                  <span><%= new Date(post.created_at).toLocaleString("ja-JP") %></span>
+                </div>
+                <p><%= post.content %></p>
+              </article>
+            <% }) %>
+          </div>
+        <% } %>
+      </main>
+    </div>
+  </div>
+</body>
+</html>
