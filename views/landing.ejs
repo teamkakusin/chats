@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Room SNS</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Room SNS</h1>
+
+    <% if (error) { %>
+      <div class="message error"><%= error %></div>
+    <% } %>
+
+    <% if (success) { %>
+      <div class="message success"><%= success %></div>
+    <% } %>
+
+    <div class="grid">
+      <section class="card">
+        <h2>新規登録</h2>
+        <form method="POST" action="/register">
+          <label>ID</label>
+          <input type="text" name="username" required />
+          <label>パスワード</label>
+          <input type="password" name="password" required />
+          <button type="submit">登録</button>
+        </form>
+      </section>
+
+      <section class="card">
+        <h2>ログイン</h2>
+        <form method="POST" action="/login">
+          <label>ID</label>
+          <input type="text" name="username" required />
+          <label>パスワード</label>
+          <input type="password" name="password" required />
+          <button type="submit">ログイン</button>
+        </form>
+      </section>
+    </div>
+  </div>
+</body>
+</html>
